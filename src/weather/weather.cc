@@ -1,10 +1,7 @@
 #include "weather.h"
-#include "../clock/clock.h"
+#include "../helpers/helper.h"
 #include <ctime>
-#include <curl/curl.h>
-#include <curl/easy.h>
 #include <iomanip>
-#include <iostream>
 #include <nlohmann/detail/value_t.hpp>
 #include <nlohmann/json.hpp>
 #include <string>
@@ -58,32 +55,8 @@ void Weather::parse_hourly_json(const std::string& json_data) {
     }
 }
 
-size_t Weather::write_callback(char* ptr, size_t size, size_t nmemb, void* userdata) {
-    size_t total_size = size * nmemb;
-    std::string* str = static_cast<std::string*>(userdata);
-    str->append(ptr, total_size);
-    return total_size;
-}
-
 std::string Weather::perform_curl_request(const std::string& url) {
-    std::string curl_data = "";
-    CURL* curl = curl_easy_init();
-
-    if (curl) {
-        // "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/17.98466/lat/59.34297/data.json"
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Weather::write_callback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &curl_data);
-        curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
-        auto CURL_code = curl_easy_perform(curl);
-        curl_easy_cleanup(curl);
-        if (CURL_code == CURLE_OK) {
-            return curl_data;
-        } else {
-            std::cerr << "Failed to curl data\n";
-        }
-    }
-    return "\n";
+    return http_get(url);
 }
 
 void Weather::parse_daily_json(const std::string& json_data) {
@@ -92,7 +65,6 @@ void Weather::parse_daily_json(const std::string& json_data) {
 
     std::map<std::string, std::vector<HourlyForecast>> daily_map;
 
-    // Samla timforecast per dag
     for (auto& it : j["timeSeries"]) {
         HourlyForecast hf;
         hf.valid_time = it["validTime"];
@@ -110,7 +82,6 @@ void Weather::parse_daily_json(const std::string& json_data) {
         daily_map[date].push_back(hf);
     }
 
-    // Skapa daily_forecast
     for (auto& [date, hours] : daily_map) {
         ForecastDay fd;
         fd.date = date;
@@ -129,7 +100,6 @@ void Weather::parse_daily_json(const std::string& json_data) {
             weather_count[h.weather_code]++;
         }
 
-        // Hitta mest förekommande weather code
         int common_code = std::max_element(
                               weather_count.begin(), weather_count.end(),
                               [](const auto& a, const auto& b) { return a.second < b.second; })
