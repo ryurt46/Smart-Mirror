@@ -1,14 +1,12 @@
-#include "weather.h"
-#include "../helpers/helper.h"
+#include "helpers/helper.h"
 #include <ctime>
 #include <iomanip>
 #include <nlohmann/detail/value_t.hpp>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <weather/weather.h>
 
 using json = nlohmann::json;
-
-#include "weather.h"
 
 const std::vector<HourlyForecast>& Weather::get_hourly_forecast() const {
     return hourly_forecast;

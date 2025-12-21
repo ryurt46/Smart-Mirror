@@ -1,4 +1,4 @@
-#include "clock.h"
+#include <clock/clock.h>
 #include <ctime>
 #include <iomanip>
 #include <string>
