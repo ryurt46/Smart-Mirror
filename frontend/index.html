@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Smart Mirror</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="app.js"></script>
+    <link rel="icon" href="icons/wi-day-sunny.svg" type="image/svg+xml" />
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="clock-box">
+        <div id="current-day" class="small-text"></div>
+        <div id="current-time" class="big-text"></div>
+      </div>
+
+      <div id="weather-box">
+        <div id="today-box">
+          <img id="weather-icon" src="icons/wi-day-sunny.svg" alt="Weather" />
+          <div id="today-weather"></div>
+        </div>
+        <div id="forecast-week"></div>
+      </div>
+
+      <div id="departures-box">
+        <h1>
+          <img id="sl-logo" src="icons/SL_logo.svg.png" alt="SL Logo" />
+          Trafik
+        </h1>
+        <div id="departures"></div>
+      </div>
+    </div>
+  </body>
+</html>

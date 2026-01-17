@@ -1,0 +1,104 @@
+body {
+    background: black;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    display: grid;
+    grid-template-areas:
+        "clock weather"
+        "departures departures";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    width: 90%;
+    height: 90%;
+}
+
+#clock-box {
+    grid-area: clock;
+    padding: 20px;
+}
+.big-text {
+    font-size: 3em;
+    margin-top: 5px;
+}
+.small-text {
+    font-size: 1.8em;
+}
+
+#weather-box {
+    grid-area: weather;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+#today-weather {
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin: 5px 0;
+}
+#today-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+#weather-icon {
+    width: 70px;
+    height: 70px;
+    filter: invert(1);
+}
+
+#forecast-week {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+    margin-left: 70px;
+}
+.forecast-day {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.288rem;
+    margin: 3px 0;
+}
+
+#departures-box {
+    grid-area: departures;
+    padding: 22px;
+    margin-top: 10px;
+    align-self: end;
+}
+#departures-box h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    /* margin: 0 0 10px 0;*/
+    margin-top: 29px;
+}
+
+#sl-logo {
+    width: 48px;
+    height: 40px;
+}
+
+.departure-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 10px 0 5px 0;
+}
+
+.departure-line {
+    font-size: 1.2rem;
+    margin: 3px 0;
+}
+.delayed {
+    color: orange;
+}
