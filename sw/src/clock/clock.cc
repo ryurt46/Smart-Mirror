@@ -3,20 +3,14 @@
 #include <iomanip>
 #include <string>
 
-const std::map<int, std::string> ClockState::week_days{
-    {0, "Sunday"},
-    {1, "Monday"},
-    {2, "Tuesday"},
-    {3, "Wednesday"},
-    {4, "Thursday"},
-    {5, "Friday"},
-    {6, "Saturday"}};
+const std::map<int, std::string> ClockState::week_days{{0, "Söndag"}, {1, "Måndag"},  {2, "Tisdag"},
+                                                       {3, "Onsdag"}, {4, "Torsdag"}, {5, "Fredag"},
+                                                       {6, "Lördag"}};
 
-int ClockState::get_week_number(const std::tm& tm) {
-    constexpr int DAYS_PER_WEEK = 7;
-    const int wday = tm.tm_wday;
-    const int delta = wday ? wday - 1 : DAYS_PER_WEEK - 1;
-    return (tm.tm_yday + DAYS_PER_WEEK - delta) / DAYS_PER_WEEK;
+uint8_t ClockState::calculate_week_number(const std::tm& tm) {
+    char buf[4];
+    std::strftime(buf, sizeof(buf), "%V", &tm);
+    return static_cast<uint8_t>(std::stoi(buf));
 }
 
 void ClockState::update() {
@@ -26,17 +20,16 @@ void ClockState::update() {
     int current_year = local_time->tm_year + 1900;
     int current_month = local_time->tm_mon + 1;
     int current_day_number = local_time->tm_mday;
-    current_date = std::to_string(current_year) + "-" + std::to_string(current_month) + "-" + std::to_string(current_day_number);
+    current_date = std::to_string(current_year) + "-" + std::to_string(current_month) + "-" +
+                   std::to_string(current_day_number);
 
     int hour = local_time->tm_hour;
     int minute = local_time->tm_min;
     current_time = std::to_string(hour) + ":" + std::to_string(minute);
 
     current_day = week_days.at(local_time->tm_wday);
-    // std::cout << current_day << "\n";
 
-    week_number = get_week_number(*local_time);
-    // std::cout << week_number << "\n";
+    week_number = calculate_week_number(*local_time);
 }
 
 std::string ClockState::get_current_day() const {
@@ -62,4 +55,12 @@ std::string ClockState::get_weekday_from_date(const std::string& date_str) {
         return it->second;
 
     return "Unknown";
+}
+
+std::string ClockState::get_current_time() const {
+    return current_time;
+}
+
+uint8_t ClockState::get_week_number() const {
+    return week_number;
 }
