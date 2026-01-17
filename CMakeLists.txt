@@ -8,8 +8,10 @@ add_executable(smart_mirror
     sw/src/main.cc
     sw/src/clock/clock.cc
     sw/src/helpers/helper.cc
-    sw/src/transport/transport.cc
+    sw/src/transport/departure_group.cc
+    sw/src/transport/departure.cc
     sw/src/weather/weather.cc
+    sw/src/http/http_server.cc
 )
 
 target_include_directories(smart_mirror
@@ -19,4 +21,3 @@ target_include_directories(smart_mirror
 
 find_package(CURL REQUIRED)
 target_link_libraries(smart_mirror PRIVATE CURL::libcurl)
-
