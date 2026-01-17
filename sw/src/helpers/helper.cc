@@ -1,6 +1,7 @@
 #include "helpers/helper.h"
 #include <chrono>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -22,8 +23,7 @@ std::string http_get(const std::string& url) {
 
         CURLcode res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
-            std::cerr << "curl_easy_perform() failed: "
-                      << curl_easy_strerror(res) << "\n";
+            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
         }
 
         curl_easy_cleanup(curl);
