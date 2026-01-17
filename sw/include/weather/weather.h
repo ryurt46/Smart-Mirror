@@ -1,6 +1,6 @@
 #pragma once
-
 #include <ctime>
+#include <nlohmann/json_fwd.hpp>
 #include <string>
 #include <vector>
 
@@ -10,8 +10,8 @@ struct HourlyForecast {
     float wind_speed;       // m/s
     int weather_code;       // SMHI weather symbol code
 
-    HourlyForecast()
-        : temperature(0.0f), wind_speed(0.0f), weather_code(0) {}
+    HourlyForecast() : temperature(0.0f), wind_speed(0.0f), weather_code(0) {
+    }
 };
 
 struct ForecastDay {
@@ -22,7 +22,9 @@ struct ForecastDay {
     int most_common_weather_code;
 
     ForecastDay()
-        : min_temperature(0.0f), max_temperature(0.0f), avg_wind_speed(0.0f), most_common_weather_code(0) {}
+        : min_temperature(0.0f), max_temperature(0.0f), avg_wind_speed(0.0f),
+          most_common_weather_code(0) {
+    }
 };
 
 class Weather {
@@ -49,7 +51,7 @@ private:
     std::vector<HourlyForecast> hourly_forecast;
     std::vector<ForecastDay> daily_forecast;
 
-    void parse_hourly_json(const std::string& json_data);
-    void parse_daily_json(const std::string& json_data);
+    void parse_hourly_json(const nlohmann::json& j);
+    void parse_daily_json(const nlohmann::json& j);
     void aggregate_daily();
 };
