@@ -1,11 +1,12 @@
+#include "weather/weather.h"
 #include "helpers/helper.h"
 #include <ctime>
 #include <format>
 #include <iomanip>
+#include <iostream>
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <string>
-#include <weather/weather.h>
 
 using json = nlohmann::json;
 

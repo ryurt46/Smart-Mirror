@@ -2,6 +2,7 @@
 #include "helpers/helper.h"
 #include <cctype>
 #include <format>
+#include <iostream>
 #include <string>
 
 using json = nlohmann::json;
